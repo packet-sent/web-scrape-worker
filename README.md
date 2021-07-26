@@ -1,4 +1,4 @@
-# 👷 `worker-template` Hello World
+# 👷 `WIP Cloudflare Worker Scraper` 
 
 A template for kick starting a Cloudflare worker project.
 
