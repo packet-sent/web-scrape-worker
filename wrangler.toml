@@ -1,5 +1,5 @@
 name = "web-scrape-worker"
-type = "javascript"
+type = "webpack"
 
 account_id = "1b9e7b2c22b83ad184af87657e4f4a22"
 workers_dev = true

@@ -1,4 +1,8 @@
 //const url = "https://example.com"
+const cheerio = require("cheerio")
+var obj = {
+  ebay_list: []
+};
 
 async function crawlPage(response) {
   const {
@@ -31,10 +35,48 @@ async function handleRequest(request) {
   }
   const response = await fetch(json_parse.url, init) 
   const results = await crawlPage(response)
+
+  const $ = cheerio.load(results);
+
+
+    $('.s-item').each((i, el) => {
+      $('.LIGHT_HIGHLIGHT').remove();
+
+      const titles = $(el)
+      .find(".s-item__title")
+      .text()
+      .replace(/,/,' ')
+      //.replace(remove, '')
+
+      const price = $(el)
+      .find('.s-item__price')
+      .eq(0)
+      .text()
+      .replace(/\s\s+/g, '')
+      .replace(/,/,' ');
+
+      if (titles  === "") {
+          console.log("Removing empty value")
+      }
+      else {
+          obj.ebay_list.push({"title": titles, "price": price});
+          console.log(titles, price)
+      }
+    });
+    
+  const json_output = JSON.stringify(obj);
   
-  return new Response(results, {
+  const real_output = json_output;
+  
+  obj = {
+    ebay_list: []
+  };
+
+  return new Response(real_output, {
     headers: { 'content-type': 'text/plain' },
   })
+
+  
 }
 
-//curl -H "Content-type: application/json" -d '{"url": "https://speedproxies.net"}' http://127.0.0.1:8787/
+//curl -H "Content-type: application/json" -d '{"url": "https://www.ebay.co.uk/sch/i.html?_from=R40&_trksid=p2334524.m570.l1313&_nkw=car&_sacat=0&LH_TitleDesc=0&_odkw=playstation+1&_osacat=0"}' http://127.0.0.1:8787/
