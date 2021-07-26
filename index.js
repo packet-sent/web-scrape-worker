@@ -1,4 +1,4 @@
-//const url = "https://speedproxies.net"
+//const url = "https://example.com"
 
 async function crawlPage(response) {
   const {
