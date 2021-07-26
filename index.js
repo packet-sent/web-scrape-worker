@@ -36,3 +36,5 @@ async function handleRequest(request) {
     headers: { 'content-type': 'text/plain' },
   })
 }
+
+//curl -H "Content-type: application/json" -d '{"url": "https://speedproxies.net"}' http://127.0.0.1:8787/
