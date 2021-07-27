@@ -1,8 +1,5 @@
 //const url = "https://example.com"
 const cheerio = require("cheerio")
-var obj = {
-  ebay_list: []
-};
 
 async function crawlPage(response) {
   const {
@@ -33,11 +30,31 @@ async function handleRequest(request) {
         "content-type": "text/html;charset=UTF-8",
     },
   }
-  const response = await fetch(json_parse.url, init) 
-  const results = await crawlPage(response)
+  const site = json_parse.site
 
+  if (site == "ebay") {
+    
+    if (json_parse.page > 0)  {
+      var page = json_parse.page
+    }
+    else {
+      var page = 1
+    }
+
+    var gen_url = "https://www.ebay.co.uk/sch/i.html?&_nkw=" + json_parse.search + "&_pgn=" + page + "&_ipg=200"
+  }
+  else {
+    var gen_url = "https://www.ebay.co.uk/sch/i.html?&_nkw=3080&_pgn=1"
+  }
+
+  const response = await fetch(gen_url, init) 
+  const results = await crawlPage(response)
   const $ = cheerio.load(results);
 
+  if (site == "ebay") {
+    var obj = {
+      ebay_list: []
+    };
 
     $('.s-item').each((i, el) => {
       $('.LIGHT_HIGHLIGHT').remove();
@@ -56,20 +73,20 @@ async function handleRequest(request) {
       .replace(/,/,' ');
 
       if (titles  === "") {
-          console.log("Removing empty value")
+          console.log("Empty value")
       }
       else {
           obj.ebay_list.push({"title": titles, "price": price});
-          console.log(titles, price)
       }
     });
-    
+  }
+  
   const json_output = JSON.stringify(obj);
   
   const real_output = json_output;
   
   obj = {
-    ebay_list: []
+    item_list: []
   };
 
   return new Response(real_output, {
