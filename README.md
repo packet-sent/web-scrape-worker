@@ -4,10 +4,10 @@
 
 #### Wrangler
 
-To generate using [wrangler](https://github.com/cloudflare/wrangler)
+Only run DEV mode for now [wrangler](https://github.com/cloudflare/wrangler)
 
 ```
-wrangler generate projectname https://github.com/cloudflare/worker-template
+wrangler dev
 ```
 
 Further documentation for Wrangler can be found [here](https://developers.cloudflare.com/workers/tooling/wrangler).
