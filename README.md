@@ -1,6 +1,4 @@
-# 👷 `worker-template` Hello World
-
-A template for kick starting a Cloudflare worker project.
+# 👷 `WIP Cloudflare Worker Scraper` 
 
 [`index.js`](https://github.com/cloudflare/worker-template/blob/master/index.js) is the content of the Workers script.
 
