@@ -17,9 +17,11 @@ async function crawlPage(response) {
   }
 }
 
+
 addEventListener("fetch", event => {
   return event.respondWith(handleRequest(event.request))
 })
+
 
 async function handleRequest(request) {
   const body = await request.json()
@@ -32,8 +34,8 @@ async function handleRequest(request) {
   }
   const site = json_parse.site
 
+
   if (site == "ebay") {
-    
     if (json_parse.page > 0)  {
       var page = json_parse.page
     }
@@ -42,14 +44,38 @@ async function handleRequest(request) {
     }
 
     var gen_url = "https://www.ebay.co.uk/sch/i.html?&_nkw=" + json_parse.search + "&_pgn=" + page + "&_ipg=200"
+    //var gen_url = "https://httpbin.org/ip?json"
+    var genned_success = "True"
+  }
+  else if (site == "amazon_uk")  {
+    if (json_parse.page > 0)  {
+      var page = json_parse.page
+    }
+    else {
+      var page = 1
+    }
+
+    var gen_url = "https://www.amazon.co.uk/s?k=" + json_parse.search + "&page=" + page
+    //var gen_url = "https://httpbin.org/ip?json"
+    var genned_success = "True"
   }
   else {
-    var gen_url = "https://www.ebay.co.uk/sch/i.html?&_nkw=3080&_pgn=1"
+    var genned_success = "False"
   }
 
-  const response = await fetch(gen_url, init) 
-  const results = await crawlPage(response)
-  const $ = cheerio.load(results);
+
+  if (genned_success == "False") {
+    var obj_fail = {"error": "Please put a valid site preset"};
+    var json_output = JSON.stringify(obj_fail);
+    var real_output = json_output;
+  }
+  else {
+    var response = await fetch(gen_url, init) 
+    var results = await crawlPage(response)
+    //console.log(results)
+    var $ = cheerio.load(results);
+  }
+
 
   if (site == "ebay") {
     var obj = {
@@ -72,22 +98,44 @@ async function handleRequest(request) {
       .replace(/\s\s+/g, '')
       .replace(/,/,' ');
 
-      if (titles  === "") {
-          console.log("Empty value")
-      }
-      else {
-          obj.ebay_list.push({"title": titles, "price": price});
+      if (titles !== "") {
+        obj.ebay_list.push({"title": titles, "price": price});
       }
     });
+    var json_output = JSON.stringify(obj);
+    var real_output = json_output;
+  }
+  else if (site == "amazon_uk")  {
+    var obj = {
+      amazon_list: []
+    };
+
+    $('.s-result-item').each((i, el) => {
+
+      $('.a-text-price').remove();
+
+      const titles = $(el)
+      .find(".a-size-medium")
+      .text()
+      .replace(/,/,' ')
+
+      const prices = $(el)
+      .find(".a-offscreen")
+      .text()
+  
+      if (prices !== "") {
+          obj.amazon_list.push({"title": titles, "price": prices});
+      }
+    });
+    var json_output = JSON.stringify(obj);
+    var real_output = json_output;
   }
   
-  const json_output = JSON.stringify(obj);
-  
-  const real_output = json_output;
   
   obj = {
     item_list: []
   };
+
 
   return new Response(real_output, {
     headers: { 'content-type': 'text/plain' },
