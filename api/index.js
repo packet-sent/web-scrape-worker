@@ -76,7 +76,7 @@ async function handleRequest(request) {
 
 
   return new Response(run_scrape[0], {
-    headers: { 'content-type': 'text/plain' },
+    headers: { 'content-type': 'application/json' },
   })
 
 

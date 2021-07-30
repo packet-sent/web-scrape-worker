@@ -7,7 +7,6 @@ export function ebay_gen(json_parse) {
   }
 
   var gen_url = "https://www.ebay.co.uk/sch/i.html?&_nkw=" + json_parse.search + "&_pgn=" + page + "&_ipg=200"
-  //var gen_url = "https://httpbin.org/ip?json"
   var genned_success = "True"
 
   return [gen_url, genned_success]
@@ -38,7 +37,7 @@ export function ebay_scrape($) {
       obj.ebay_list.push({ "title": titles, "price": price });
     }
   });
-  var json_output = JSON.stringify(obj);
+  var json_output = JSON.stringify(obj, null, 4);
   var real_output = json_output;
 
   return [real_output]
