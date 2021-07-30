@@ -1,4 +1,5 @@
-//const url = "https://example.com"
+import { fail_gen } from './modules/fail.js';
+import { fail_scrape } from './modules/fail.js';
 
 import { ebay_gen } from './modules/ebay.js';
 import { ebay_scrape } from './modules/ebay.js';
@@ -50,19 +51,17 @@ async function handleRequest(request) {
     var genned_success = run_parse[1]
   }
   else {
-    var genned_success = "False"
+    var run_parse = fail_gen()
+    var genned_success = run_parse[0]
   }
 
 
   if (genned_success == "False") {
-    var obj_fail = { "error": "Please put a valid site preset" };
-    var json_output = JSON.stringify(obj_fail);
-    var real_output = json_output;
+    var run_scrape = fail_scrape()
   }
   else {
     var response = await fetch(run_parse[0], init)
     var results = await crawlPage(response)
-    //console.log(results)
     var $ = cheerio.load(results);
   }
 
