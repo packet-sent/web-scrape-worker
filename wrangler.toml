@@ -1,5 +1,6 @@
 name = "web-scrape-worker"
 type = "webpack"
+webpack_config = "webpack.config.js"
 
 account_id = "1b9e7b2c22b83ad184af87657e4f4a22"
 workers_dev = true
