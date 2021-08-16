@@ -14,7 +14,7 @@ export function amazon_gen(json_parse) {
 
 export function amazon_scrape($) {
     var obj = {
-        ebay_list: []
+        amazon_list: []
     };
 
     $('.s-result-item').each((i, el) => {
