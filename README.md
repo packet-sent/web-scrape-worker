@@ -1,5 +1,7 @@
 # 👷 `WIP Cloudflare Worker Scraper` 
 
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/packet-sent/web-scrape-worker)
+
 [`index.js`](https://github.com/speedproxies/web-scrape-worker/blob/master/api/index.js) has the main content of the Cloudflare Workers script.
 
 # Running the Cloudflare Workers script
